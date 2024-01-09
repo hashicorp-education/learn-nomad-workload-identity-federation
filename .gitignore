@@ -3,3 +3,7 @@
 *.auto.tfvars
 *.tfstate
 *.tfstate.*
+
+# Ignore generated files
+gcp/agent.hcl
+gcp/gcs.nomadvars.hcl
