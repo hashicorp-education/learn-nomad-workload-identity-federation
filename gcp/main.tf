@@ -17,12 +17,9 @@ resource "google_compute_target_https_proxy" "nomad" {
   ssl_certificates = [
     google_compute_managed_ssl_certificate.nomad.name
   ]
-
-  depends_on = [
-    google_compute_managed_ssl_certificate.nomad
-  ]
 }
 
+# Allow health checks
 resource "google_compute_firewall" "nomad" {
   name = "fw-allow-health-check"
 
@@ -32,11 +29,13 @@ resource "google_compute_firewall" "nomad" {
     ignore_changes = [network]
   }
 
-  direction     = "INGRESS"
-  network       = "global/networks/default"
-  priority      = 1000
+  direction   = "INGRESS"
+  network     = "global/networks/default"
+  priority    = 1000
+  target_tags = ["allow-health-check"]
+
+  # https://cloud.google.com/load-balancing/docs/https#firewall-rules
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
-  target_tags   = ["allow-health-check"]
   allow {
     ports    = ["80"]
     protocol = "tcp"
@@ -88,7 +87,6 @@ resource "google_compute_url_map" "nomad" {
 }
 
 # Forwarding rule.
-##TODO Is this right?!
 resource "google_compute_global_forwarding_rule" "nomad_http" {
   name                  = "http-rule"
   ip_protocol           = "TCP"
@@ -107,14 +105,6 @@ resource "google_compute_global_forwarding_rule" "nomad_https" {
 }
 
 # Cloud DNS
-### This created a managed *zone* when what we want is a record
-### This is already created by doormat
-#resource "google_dns_managed_zone" "parent_zone" {
-#  name        = "nomad-zone"
-#  dns_name    = var.parent_domain
-#  description = "Test Description"
-#}
-
 resource "google_dns_record_set" "default" {
   managed_zone = var.parent_zone_name
   name         = "${var.domain}."

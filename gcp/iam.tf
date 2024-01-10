@@ -46,8 +46,4 @@ resource "google_service_account_iam_binding" "nomad" {
     #principal://iam.googleapis.com/projects/PROJECT_NUM/locations/global/workloadIdentityPools/POOL_NAME/subject/SUBJECT_MAPPING
     "principal://iam.googleapis.com/${google_iam_workload_identity_pool.nomad.name}/subject/global:default:gcs-job:gcs-group:gcs-task:tutorial"
   ]
-
-  depends_on = [
-    google_iam_workload_identity_pool.nomad
-  ]
 }

@@ -3,7 +3,6 @@ variable "region" {
   default     = "us-central1"
 }
 
-
 variable "zone" {
   description = "The GCP zone to deploy to."
   default     = "us-central1-a"
