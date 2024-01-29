@@ -9,11 +9,11 @@ variable "zone" {
 }
 
 variable "project" {
-  description = "The GCP project to use."
+  description = "The GCP project ID to use."
 }
 
 variable "parent_zone_name" {
-  description = "Parent domain for HTTPS certificate. Must already exist."
+  description = "Parent domain ID for HTTPS certificate. Must already exist."
 }
 
 variable "domain" {

@@ -8,7 +8,7 @@ resource "local_file" "gcsjob_variables" {
     gcs_bucket      = google_storage_bucket.nomad.name,
     wid_provider    = google_iam_workload_identity_pool_provider.nomad_provider.name,
     service_account = google_service_account.nomad.email,
-    gcp_project_id  = data.google_project.main.number,
+    gcp_project_num = data.google_project.main.number,
   })
   filename = "gcs.nomadvars.hcl"
 }
@@ -18,7 +18,7 @@ output "random_name" {
   description = "Random pet name used for some resources. Informational only."
 }
 
-output "gcp_project_id" {
+output "gcp_project_num" {
   value       = data.google_project.main.number
   description = "Google Cloud Project Number for use in gcs.nomad.hcl"
 }

@@ -1,5 +1,5 @@
-variable "gcp_project_id" {
-  description = "Google Cloud Project ID Number"
+variable "gcp_project_num" {
+  description = "Google Cloud Project Number"
 }
 
 variable "gcs_bucket" {
@@ -31,7 +31,7 @@ job "gcs-job" {
       }
 
       meta {
-        project      = var.gcp_project_id
+        project      = var.gcp_project_num
         bucket       = var.gcs_bucket
         wid_provider = var.wid_provider
         service_acct = var.service_account

@@ -105,8 +105,12 @@ resource "google_compute_global_forwarding_rule" "nomad_https" {
 }
 
 # Cloud DNS
+data "google_dns_managed_zone" "parent" {
+  name = var.parent_zone_name
+}
+
 resource "google_dns_record_set" "default" {
-  managed_zone = var.parent_zone_name
+  managed_zone = data.google_dns_managed_zone.parent.name
   name         = "${var.domain}."
   type         = "A"
   rrdatas      = [google_compute_global_address.nomad.address]
