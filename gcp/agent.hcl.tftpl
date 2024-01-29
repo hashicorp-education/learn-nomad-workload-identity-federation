@@ -1,0 +1,18 @@
+# Nomad Agent Configuration
+name      = "nomadagent"
+bind_addr = "0.0.0.0"
+
+# **NOT for production use**
+# Cluster state will not persist across VM restarts
+data_dir = "/tmp/nomad"
+
+client {
+  enabled = true
+}
+
+server {
+  enabled          = true
+  bootstrap_expect = 1
+
+  oidc_issuer = "${oidc_issuer}"
+}
